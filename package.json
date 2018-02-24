@@ -9,6 +9,9 @@
   },
   "author": "mauricio",
   "license": "MIT",
+  "engines": {
+    "node": "9.4.0"
+  },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
