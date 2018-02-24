@@ -5,9 +5,9 @@ var app = require('./app');   //para usar express desde el fichero app.js
 var port = 3800;
 
 mongoose.Promise = global.Promise; //Conectar a la bd
-// mongoose.connect('mongodb://localhost:27017/curso_mean_social',{ useMongoClient: true } )  //reemplazada por
-mongoose.connect('mongodb://localhost:27017/curso_mean_social')   //conectar a la bd
-    .then( () => {
+// mongoose.connect('mongodb://localhost:27017/curso_mean_social')
+mongoose.connect('mongodb://admin:214049973@ds147518.mlab.com:47518/curso_mean_social') 
+.then( () => {
         console.log("La conexion a la bd curso_mean_social se ha realizado correctamente!!!")
         //crear servidor
         app.listen(port, () =>{
