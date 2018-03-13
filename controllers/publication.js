@@ -240,7 +240,7 @@ function uploadImage(req,res){
     if(req.files){  // si se estan enviando ficheros
         var file_path = req.files.image.path;
         var file_split = file_path.split('\\'); // '\\'permite cortar el string en varias partes, segmentarlo ej: uploads\users\SiVCNJw87ejajDtedw92PFha.jpg  => [ 'uploads', 'users', 'SiVCNJw87ejajDtedw92PFha.jpg' ]
-        var file_name = file_split[1];   //para quedarme solamente con el indice 2 del arreglo, que es el nombre del archivo
+        var file_name = file_split[3];   //para quedarme solamente con el indice 2 del arreglo, que es el nombre del archivo
         var ext_split = file_name.split('\.');   //cortar el string desde el punto(quitar la extension)
         var file_ext = ext_split[1];    //me quedo con la extension en el indice 1 del arreglo
 
