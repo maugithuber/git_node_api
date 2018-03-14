@@ -239,15 +239,17 @@ function uploadImage(req,res){
     var publicationId = req.params.id;
     if(req.files){  // si se estan enviando ficheros
         var file_path = req.files.image.path;
+        console.log(file_path);
         var file_split = file_path.split('\\'); // '\\'permite cortar el string en varias partes, segmentarlo ej: uploads\users\SiVCNJw87ejajDtedw92PFha.jpg  => [ 'uploads', 'users', 'SiVCNJw87ejajDtedw92PFha.jpg' ]
+        console.log(file_split);
         var file_name = file_split[2];   //para quedarme solamente con el indice 2 del arreglo, que es el nombre del archivo
-      
+        console.log(file_name);
         var ext_split = file_name.split('\.');   //cortar el string desde el punto(quitar la extension)
         var file_ext = ext_split[1];    //me quedo con la extension en el indice 1 del arreglo
 
        if( file_ext == 'png' || file_ext == 'jpg' || file_ext =='jpeg' || file_ext == 'gif' ){
         //verificar que sea yo el dueno de la publicacion
-        Publication.findOne({user:req.user.sub,_id:publicationId}).exec((err,publication)=>{
+        Publication.findOne( {user: req.user.sub, _id: publicationId} ).exec( (err,publication) => {
                 if(publication){
                  //actualizar documento de la publicacion    
                     Publication.findByIdAndUpdate( publicationId, {file: file_name} , {new:true}, ( err,publicationUpdated ) => {
