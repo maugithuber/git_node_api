@@ -259,7 +259,7 @@ function uploadImage(req,res){
         Publication.findOne( {user: req.user.sub, _id: publicationId} ).exec( (err,publication) => {
                 if(publication){
                  //actualizar documento de la publicacion    
-                    Publication.findByIdAndUpdate( publicationId, {file: file_name} , {new:true}, ( err,publicationUpdated ) => {
+                    Publication.findByIdAndUpdate( publicationId, {file: file_path} , {new:true}, ( err,publicationUpdated ) => {
                         if (err) return res.status(500).send({message:'error en la peticion'});
                         if (!publicationUpdated) return res.status(404).send( {message:'no se pudo subir el archivo'} );
                         return res.status(200).send( {publication:publicationUpdated} );  
