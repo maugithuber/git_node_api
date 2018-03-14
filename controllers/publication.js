@@ -239,11 +239,18 @@ function uploadImage(req,res){
     var publicationId = req.params.id;
     if(req.files){  // si se estan enviando ficheros
         var file_path = req.files.image.path;
-        console.log(file_path);
+
         var file_split = file_path.split('\\'); // '\\'permite cortar el string en varias partes, segmentarlo ej: uploads\users\SiVCNJw87ejajDtedw92PFha.jpg  => [ 'uploads', 'users', 'SiVCNJw87ejajDtedw92PFha.jpg' ]
-        console.log(file_split);
-        var file_name = file_split[2];   //para quedarme solamente con el indice 2 del arreglo, que es el nombre del archivo
-        console.log(file_name);
+        var i =0;
+        var x;
+        while(i<file_split.length){
+            if(file_split[i]=='publications'){
+                    x= i+1;
+            }
+            i++;
+        }
+        var file_name = file_split[x];   //para quedarme solamente con el indice 2 del arreglo, que es el nombre del archivo
+  
         var ext_split = file_name.split('\.');   //cortar el string desde el punto(quitar la extension)
         var file_ext = ext_split[1];    //me quedo con la extension en el indice 1 del arreglo
 
