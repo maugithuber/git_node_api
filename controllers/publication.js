@@ -241,9 +241,10 @@ function uploadImage(req,res){
 
         var file_path = req.files.image.path;
         var file_name= path.basename(file_path );
-        var ext= path.extname(file_path );
+        // var ext= path.extname(file_path );
         
-       if( ext == 'png' || ext == 'jpg' || ext =='jpeg' || ext == 'gif'){
+        // if( ext == 'png' || ext == 'jpg' || ext =='jpeg' || ext == 'gif'){
+       if( true){
         //verificar que sea yo el dueno de la publicacion
         Publication.findOne( {user: req.user.sub, _id: publicationId} ).exec( (err,publication) => {
                 if(publication){

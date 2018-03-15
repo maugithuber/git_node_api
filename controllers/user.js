@@ -285,12 +285,13 @@ function uploadImage(req,res){
 
         var file_path = req.files.image.path;
         var file_name= path.basename(file_path );
-        var ext= path.extname(file_path );
+        // var ext= path.extname(file_path );
 
             if( userId != req.user.sub ){
                 return removeFilesUploads(res,file_path,'no tiene permiso para actualizar imagen');
             }
-            if( ext == 'png' || ext == 'jpg' || ext =='jpeg' || ext == 'gif' ){
+            // if( ext == 'png' || ext == 'jpg' || ext =='jpeg' || ext == 'gif' ){
+                if( true){
         
                     User.findByIdAndUpdate( userId, {image: file_name} , {new:true}, ( err,userUpdated ) => {
                         if (err) return res.status(500).send({message:'error en la peticion'});
