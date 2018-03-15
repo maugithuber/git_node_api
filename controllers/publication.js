@@ -1,5 +1,7 @@
 'use strict'
 
+
+var multipart = require('connect-multiparty');
 var path = require('path');
 var fs = require('fs');
 var moment = require('moment');
@@ -240,26 +242,29 @@ function uploadImage(req,res){
     if(req.files){  // si se estan enviando ficheros
         var file_path = req.files.image.path;
 
-        var file_split = file_path.split('\\'); // '\\'permite cortar el string en varias partes, segmentarlo ej: uploads\users\SiVCNJw87ejajDtedw92PFha.jpg  => [ 'uploads', 'users', 'SiVCNJw87ejajDtedw92PFha.jpg' ]
-        var i =0;
-        var x;
-        while(i<file_split.length){
-            if(file_split[i]=='publications'){
-                    x= i+1;
-            }
-            i++;
-        }
-        var file_name = file_split[x];   //para quedarme solamente con el indice 2 del arreglo, que es el nombre del archivo
+        // var file_split = file_path.split('\\'); // '\\'permite cortar el string en varias partes, segmentarlo ej: uploads\users\SiVCNJw87ejajDtedw92PFha.jpg  => [ 'uploads', 'users', 'SiVCNJw87ejajDtedw92PFha.jpg' ]
+        // var i =0;
+        // var x;
+        // while(i<file_split.length){
+        //     if(file_split[i]=='publications'){
+        //             x= i+1;
+        //     }
+        //     i++;
+        // }
+        // var file_name = file_split[x];   //para quedarme solamente con el indice 2 del arreglo, que es el nombre del archivo
   
-        var ext_split = file_name.split('\.');   //cortar el string desde el punto(quitar la extension)
-        var file_ext = ext_split[1];    //me quedo con la extension en el indice 1 del arreglo
+        // var ext_split = file_name.split('\.');   //cortar el string desde el punto(quitar la extension)
+        // var file_ext = ext_split[1];    //me quedo con la extension en el indice 1 del arreglo
+        var nueva_ruta = "./uploads/publications/" + path.extname(file_path ).toLowerCase();
+        fs.createReadStream(file_path).pipe(fs.createWriteStream(nueva_ruta));
+        var nombre_foto = path.extname(file_path ).toLowerCase();
 
-       if( file_ext == 'png' || file_ext == 'jpg' || file_ext =='jpeg' || file_ext == 'gif' ){
+       if( true ){
         //verificar que sea yo el dueno de la publicacion
         Publication.findOne( {user: req.user.sub, _id: publicationId} ).exec( (err,publication) => {
                 if(publication){
                  //actualizar documento de la publicacion    
-                    Publication.findByIdAndUpdate( publicationId, {file: file_path} , {new:true}, ( err,publicationUpdated ) => {
+                    Publication.findByIdAndUpdate( publicationId, {file: nombre_foto} , {new:true}, ( err,publicationUpdated ) => {
                         if (err) return res.status(500).send({message:'error en la peticion'});
                         if (!publicationUpdated) return res.status(404).send( {message:'no se pudo subir el archivo'} );
                         return res.status(200).send( {publication:publicationUpdated} );  
