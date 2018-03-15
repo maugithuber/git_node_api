@@ -279,25 +279,19 @@ function updateUser(req,res){
 
 
 
-// subir archivos de imagen/avatar de usuario
 function uploadImage(req,res){
     var userId = req.params.id;
-    if(req.files){  // si se estan enviando ficheros
+    if(req.files){  
+
         var file_path = req.files.image.path;
-       // console.log(file_path);
-        var file_split = file_path.split('\\'); // '\\'permite cortar el string en varias partes, segmentarlo ej: uploads\users\SiVCNJw87ejajDtedw92PFha.jpg  => [ 'uploads', 'users', 'SiVCNJw87ejajDtedw92PFha.jpg' ]
-      //  console.log(file_split);
-        var file_name = file_split[2];   //para quedarme solamente con el indice 2 del arreglo, que es el nombre del archivo
-      //  console.log(file_name);
-        var ext_split = file_name.split('\.');   //cortar el string desde el punto(quitar la extension)
-       // console.log(ext_split);
-        var file_ext = ext_split[1];    //me quedo con la extension en el indice 1 del arreglo
-       // console.log(file_ext);
+        var file_name= path.basename(file_path );
+        var ext= path.extname(file_path );
+
             if( userId != req.user.sub ){
                 return removeFilesUploads(res,file_path,'no tiene permiso para actualizar imagen');
             }
-            if( file_ext == 'png' || file_ext == 'jpg' || file_ext =='jpeg' || file_ext == 'gif' ){
-                    //actualizar documento de usuario logeado
+            if( ext == 'png' || ext == 'jpg' || ext =='jpeg' || ext == 'gif' ){
+        
                     User.findByIdAndUpdate( userId, {image: file_name} , {new:true}, ( err,userUpdated ) => {
                         if (err) return res.status(500).send({message:'error en la peticion'});
                         if (!userUpdated) return res.status(404).send( {message:'no se pudo actualizar usuario'} );
