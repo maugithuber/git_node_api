@@ -1,7 +1,5 @@
 'use strict'
 
-
-var multipart = require('connect-multiparty');
 var path = require('path');
 var fs = require('fs');
 var moment = require('moment');
@@ -255,16 +253,13 @@ function uploadImage(req,res){
   
         // var ext_split = file_name.split('\.');   //cortar el string desde el punto(quitar la extension)
         // var file_ext = ext_split[1];    //me quedo con la extension en el indice 1 del arreglo
-        var nueva_ruta = "./uploads/publications/" + path.extname(file_path ).toLowerCase();
-        fs.createReadStream(file_path).pipe(fs.createWriteStream(nueva_ruta));
-        var nombre_foto = path.extname(file_path ).toLowerCase();
-
-       if( true ){
+        var filename= path.basename(file_path );
+       if( true){
         //verificar que sea yo el dueno de la publicacion
         Publication.findOne( {user: req.user.sub, _id: publicationId} ).exec( (err,publication) => {
                 if(publication){
                  //actualizar documento de la publicacion    
-                    Publication.findByIdAndUpdate( publicationId, {file: nombre_foto} , {new:true}, ( err,publicationUpdated ) => {
+                    Publication.findByIdAndUpdate( publicationId, {file: filename} , {new:true}, ( err,publicationUpdated ) => {
                         if (err) return res.status(500).send({message:'error en la peticion'});
                         if (!publicationUpdated) return res.status(404).send( {message:'no se pudo subir el archivo'} );
                         return res.status(200).send( {publication:publicationUpdated} );  
